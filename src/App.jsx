@@ -4,7 +4,7 @@ import { intervalToDuration } from 'date-fns'
 
 function App() {
   const [file, setFile] = useState();
-  const [timestamps, setTimestamps] = useState();
+  const [times, setTimes] = useState();
 
   const convertSeconds = totalSeconds => {
     if (totalSeconds === 0) {
@@ -38,8 +38,16 @@ function App() {
   };
 
   const handleFileSubmit = () => {
-    setTimestamps(file.challengeModeTimeline)
+    const timestamps = [];
     console.log(file.challengeModeTimeline)
+
+    file.challengeModeTimeline.map(item => {
+      timestamps.push({
+        "description": `${convertSeconds(item.timestamp)} ${item.segmentType}`
+      })
+    })
+
+    setTimes(timestamps)
   }
 
   return (
@@ -49,10 +57,8 @@ function App() {
         <button onClick={handleFileSubmit}>Submit</button>
         
       </div>
-      {timestamps && timestamps.map((item) => {
-        return <div>
-          {convertSeconds(item.timestamp)} {item.segmentType}
-        </div>
+      {times && times.map(item => {
+        return <div>{item.description}</div>
       })}
     </>
   )
