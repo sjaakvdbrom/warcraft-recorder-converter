@@ -16,9 +16,14 @@ function FileUploader( props ) {
   };
 
   const handleFileSubmit = () => {
+    // When submitting a file first clean up the array
     props.setTimes([]);
-    file.challengeModeTimeline.map(async item => {
+
+    // Add individual times
+    file.challengeModeTimeline.map(item => {
       const name = dungeonEncounters[item.encounterId]
+
+      // Check if the current item is a boss and if the encounterId is in the list
       if (item.hasOwnProperty('encounterId') && dungeonEncounters.hasOwnProperty(item.encounterId)) {
         props.setTimes(prev => [...prev, {"description": `${convertSeconds(item.timestamp)} ${name}`}])
       } else {
@@ -29,7 +34,7 @@ function FileUploader( props ) {
 
   return (
     <div>
-      <input type="file" onChange={handleFileChange} />
+      <input type="file" onChange={handleFileChange} accept='application/JSON' />
       <button onClick={handleFileSubmit}>Submit</button>
     </div>
   )
