@@ -1,10 +1,48 @@
 import './App.css'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { intervalToDuration } from 'date-fns'
+import {encode} from 'base-64';
 
 function App() {
   const [file, setFile] = useState();
   const [times, setTimes] = useState();
+
+  const getChar = async id => {
+    const login = import.meta.env.VITE_BNET_ID;
+    const password = import.meta.env.VITE_BNET_SECRET;
+    try {
+      const tokenResponse = await fetch('https://eu.battle.net/oauth/token', {
+        body: 'grant_type=client_credentials',
+        headers: {
+          Authorization:
+          `Basic ${encode(`${login}:${password}`)}`,
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        method: 'POST'
+      })
+      const tokenData = await tokenResponse.json()
+      const bearerToken = tokenData.access_token
+      const lookupResponse = await fetch(
+        `https://eu.api.blizzard.com/data/wow/journal-encounter/${id}?namespace=static-eu&access_token=EUyBk4DjrD47tBJBMvaCsqR2wM19e21Ovr`,
+        {
+          headers: {
+            Authorization: `Bearer ${bearerToken}`,
+            'content-type': 'application/x-www-form-urlencoded'
+          },
+          method: 'GET'
+        }
+      )
+      const data = await lookupResponse.json()
+      if (data.name) {
+        return data.name.en_US
+      }
+      if (data.reason) {
+        setError(data.reason)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   const convertSeconds = totalSeconds => {
     if (totalSeconds === 0) {
@@ -42,9 +80,15 @@ function App() {
     console.log(file.challengeModeTimeline)
 
     file.challengeModeTimeline.map(item => {
-      timestamps.push({
-        "description": `${convertSeconds(item.timestamp)} ${item.segmentType}`
-      })
+      if (item.hasOwnProperty('encounterId')) {
+        timestamps.push({
+          "description": `${convertSeconds(item.timestamp)} ${item.segmentType}`,
+        })
+      } else {
+        timestamps.push({
+          "description": `${convertSeconds(item.timestamp)} ${item.segmentType}`
+        })
+      }
     })
 
     setTimes(timestamps)
