@@ -1,26 +1,55 @@
 #root {
   max-width: 1280px;
+  width: 100%;
   margin: 0 auto;
   padding: 2rem;
 }
 
 * {
   box-sizing: border-box;
+  margin: 0;
+  line-height: 1;
+  font-size: 100%;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5 {
-  margin-top: 0;
+.display-1 {
+  margin-bottom: 20px;
+  font-size: 26px;
+}
+
+.display-2 {
+  margin-bottom: 15px;
+  font-size: 22px;
+}
+
+.text {
+  line-height: 1.6;
 }
 
 .row {
   display: flex;
-  gap: 25px;
+  gap: 50px;
 }
 
 .col-6 {
   width: 50%;
+}
+
+input {
+  display: block;
+  width: 100%;
+}
+
+section:not(:last-child) {
+  margin-bottom: 30px;
+}
+
+.description {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.intro {
+  margin-bottom: 50px;
 }
