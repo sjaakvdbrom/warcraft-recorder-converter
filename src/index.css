@@ -34,7 +34,7 @@
   }
 
   h1 {
-    @apply text-3xl font-medium mb-2;
+    @apply text-2xl font-medium mb-2;
   }
 
   h2 {
