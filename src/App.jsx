@@ -7,15 +7,21 @@ function App() {
 
   return (
     <>
-      <FileUploader setTimes={setTimes} />
-      <div className="title">
-        <h2>Title</h2>
-      </div>
-      <div className='description'>
-        <h2>Description</h2>
-        {times.length > 0 && times.map(item => (
-          <div key={item.description}>{item.description}</div>
-        ))}
+      <div className="row">
+        <div className="col-6">
+          <FileUploader setTimes={setTimes} />
+        </div>
+        <div className="col-6">
+          <div className="title">
+            <h2>Title</h2>
+          </div>
+          <div className='description'>
+            <h2>Description</h2>
+            {times.length > 0 && times.map(item => (
+              <div key={item.description}>{item.description}</div>
+            ))}
+          </div>
+        </div>
       </div>
     </>
   )
