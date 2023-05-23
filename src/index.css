@@ -44,4 +44,8 @@
   section {
     @apply mb-5;
   }
+
+  .btn {
+    @apply rounded-md bg-primary py-2 px-4 text-base font-semibold text-white duration-300 ease-in-out hover:bg-primary/80;
+  }
 }

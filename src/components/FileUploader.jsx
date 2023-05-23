@@ -35,19 +35,17 @@ function FileUploader( props ) {
   return (
     <section>
       <h2>Recorder json</h2>
-      <label class="block">
-        <span class="sr-only">Choose profile photo</span>
-        <input type="file" onChange={handleFileChange} accept='application/JSON' class="
+      <label className="block">
+        <span className="sr-only">Choose profile photo</span>
+        <input type="file" onChange={handleFileChange} accept='application/JSON' className="
           block w-full text-sm text-slate-500
           dark:text-slate-300
           file:mr-4 file:py-2 file:px-4
           file:rounded-full file:border-0
           file:text-sm file:font-semibold
-          file:bg-violet-50 file:text-violet-700
-          hover:file:bg-violet-100
         "/>
       </label>
-      <button onClick={handleFileSubmit}>Submit</button>
+      <button onClick={handleFileSubmit} className='btn mt-3'>Submit</button>
     </section>
   )
 }

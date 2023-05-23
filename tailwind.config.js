@@ -9,6 +9,14 @@ export default {
     container: {
       center: true,
     },
+    extend: {
+      colors: {
+        current: "currentColor",
+        transparent: "transparent",
+        primary: "#4A6CF7",
+        black: "#090E34",
+      }
+    },
   },
   plugins: [],
 }
