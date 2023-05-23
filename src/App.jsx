@@ -6,10 +6,10 @@ function App() {
 
   return (
     <div className="md:container">
-      <div className="grid lg:grid-cols-2 gap-10">
+      <div className="grid lg:grid-cols-2 gap-7 lg:gap-10">
         <div>
           <FileUploader setTimestamps={setTimestamps} />
-          <section>
+          <section className='mb-0'>
             <h2>Raider.io url</h2>
             <input type='url' className='w-full' />
           </section>
