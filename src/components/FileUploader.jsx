@@ -34,7 +34,7 @@ function FileUploader( props ) {
 
   return (
     <section>
-      <h2 className='display-2'>Recorder json</h2>
+      <h2>Recorder json</h2>
       <input type="file" onChange={handleFileChange} accept='application/JSON' />
       <button onClick={handleFileSubmit}>Submit</button>
     </section>
