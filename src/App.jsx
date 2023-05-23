@@ -2,17 +2,13 @@ import { useState } from 'react';
 import FileUploader from './components/FileUploader';
 
 function App() {
-  const [times, setTimes] = useState([]);
+  const [timestamps, setTimestamps] = useState([]);
 
   return (
-    <div className="container">
-      <div className='mb-10'>
-        <h1>Warcraft recorder converter</h1>
-        <p>This app lets you input a warcraft recorder json and raider.io url and it will convert it to a youtube thumbnail, title and description including timestamps.</p>
-      </div>
-      <div className="grid grid-cols-2 gap-10">
+    <div className="md:container">
+      <div className="grid lg:grid-cols-2 gap-10">
         <div>
-          <FileUploader setTimes={setTimes} />
+          <FileUploader setTimestamps={setTimestamps} />
           <section>
             <h2>Raider.io url</h2>
             <input type='url' className='w-full' />
@@ -32,7 +28,7 @@ function App() {
           <section>
             <h2>Description</h2>
             <ul className='description'>
-              {times.length > 0 && times.map(item => (
+              {timestamps.length > 0 && timestamps.map(item => (
                 <li key={item.description}>{item.description}</li>
               ))}
             </ul>

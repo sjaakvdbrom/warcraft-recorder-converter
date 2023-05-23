@@ -4,6 +4,7 @@ import { convertSeconds } from '../helpers/times';
 
 function FileUploader( props ) {
   const [file, setFile] = useState();
+  const [submitDisabled, setSubmitDisabled] = useState(true);
 
   const handleFileChange = (e) => {
     if (e.target.files) {
@@ -11,13 +12,16 @@ function FileUploader( props ) {
       fileReader.readAsText(e.target.files[0], "UTF-8");
       fileReader.onload = e => {
         setFile(JSON.parse(e.target.result));
+        setSubmitDisabled(false);
       };
+    } else {
+      setSubmitDisabled(true);
     }
   };
 
   const handleFileSubmit = () => {
     // When submitting a file first clean up the array
-    props.setTimes([]);
+    props.setTimestamps([]);
 
     // Add individual times
     file.challengeModeTimeline.map(item => {
@@ -25,9 +29,9 @@ function FileUploader( props ) {
 
       // Check if the current item is a boss and if the encounterId is in the list
       if (item.hasOwnProperty('encounterId') && dungeonEncounters.hasOwnProperty(item.encounterId)) {
-        props.setTimes(prev => [...prev, {"description": `${convertSeconds(item.timestamp)} ${name}`}])
+        props.setTimestamps(prev => [...prev, {"description": `${convertSeconds(item.timestamp)} ${name}`}])
       } else {
-        props.setTimes(prev => [...prev, {"description": `${convertSeconds(item.timestamp)} ${item.segmentType}`}])
+        props.setTimestamps(prev => [...prev, {"description": `${convertSeconds(item.timestamp)} ${item.segmentType}`}])
       }
     })
   }
@@ -45,7 +49,7 @@ function FileUploader( props ) {
           file:text-sm file:font-semibold
         "/>
       </label>
-      <button onClick={handleFileSubmit} className='btn mt-3'>Submit</button>
+      <button onClick={handleFileSubmit} disabled={submitDisabled} className='btn mt-3'>Submit</button>
     </section>
   )
 }
