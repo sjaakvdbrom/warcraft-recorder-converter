@@ -1,18 +1,25 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import FileUploader from './components/FileUploader';
 import axios from 'axios';
+import { millisecondsToSeconds } from 'date-fns'
+import { convertSeconds } from './helpers/times';
 
 function App() {
   const [timestamps, setTimestamps] = useState([]);
   const [runData, setRunData] = useState({});
 
   const getRun = () => {
-    axios.get(`https://cors-anywhere.herokuapp.com/https://raider.io/api/v1/mythic-plus/run-details?season=season-df-2&id=4649120`)
+    axios.get(`https://cors-anywhere.herokuapp.com/https://raider.io/api/v1/mythic-plus/run-details?season=season-df-2&id=2943404`)
     .then(response => {
       setRunData({
         "dungeon": response.data.dungeon.name,
         "level": response.data.mythic_level,
-        "affixes": response.data.weekly_modifiers.map(item => item.name)
+        "affixes": response.data.weekly_modifiers.map(item => item.name),
+        "time": millisecondsToSeconds(response.data.clear_time_ms),
+        "image": {
+          "expansionId": response.data.dungeon.expansion_id,
+          "slug": response.data.dungeon.slug,
+        }
       })
       console.log(response);
     })
@@ -21,9 +28,23 @@ function App() {
     });
   }
 
-  // useEffect(() => {
-  //   console.log(runData)
-  // }, [runData]);
+  const printAffixes = () => {
+    if (Object.keys(runData).length === 0) return
+  
+    return (
+      runData.affixes.map((affix, index) => {
+        if (index + 1 === runData.affixes.length - 1) {
+          return `${affix} and `
+        }
+
+        if (index + 1 < runData.affixes.length - 1) {
+          return `${affix}, `
+        }
+
+        return `${affix}`
+      })
+    )
+  }
 
   return (
     <div className="md:container">
@@ -40,6 +61,9 @@ function App() {
           <section>
             <div className="thumbnail">
               <h2>Thumbnail</h2>
+              {Object.keys(runData).length > 0 && (
+                <img src={`https://cdnassets.raider.io/images/dungeons/expansion${runData.image.expansionId}/base/${runData.image.slug}.jpg`} />
+              )}
             </div>
           </section>
           <section>
@@ -51,9 +75,7 @@ function App() {
           <section>
             <h2>Description</h2>
             <ul className='description'>
-              {Object.keys(runData).length > 0 && runData.affixes.map((affix) => (
-                <span>{`${affix} `}</span>
-              ))}
+              {Object.keys(runData).length > 0 && `Mythic plus keystone +${runData.level} ${runData.dungeon} completed in ${convertSeconds(runData.time)} with the affixes `} {printAffixes()}.
               {timestamps.length > 0 && timestamps.map(item => (
                 <li key={item.description}>{item.description}</li>
               ))}
