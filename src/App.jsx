@@ -3,6 +3,7 @@ import FileUploader from './components/FileUploader';
 import axios from 'axios';
 import { millisecondsToSeconds } from 'date-fns'
 import { convertSeconds } from './helpers/times';
+import Canvas from './components/Canvas';
 
 function App() {
   const [timestamps, setTimestamps] = useState([]);
@@ -62,7 +63,9 @@ function App() {
             <div className="thumbnail">
               <h2>Thumbnail</h2>
               {Object.keys(runData).length > 0 && (
-                <img src={`https://cdnassets.raider.io/images/dungeons/expansion${runData.image.expansionId}/base/${runData.image.slug}.jpg`} />
+                <Canvas
+                image={`https://cdnassets.raider.io/images/dungeons/expansion${runData.image.expansionId}/base/${runData.image.slug}.jpg`} 
+                />
               )}
             </div>
           </section>
