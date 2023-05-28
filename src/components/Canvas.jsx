@@ -19,8 +19,12 @@ const Canvas = props => {
       ctx.save();
       ctx.beginPath();
       ctx.arc(circleX, circleY, radius, 0, Math.PI*2, true);
+      ctx.lineWidth = 10;
+      ctx.strokeStyle = 'white';
+      ctx.stroke();
       ctx.clip();
       ctx.drawImage(this, imageX, imageY, imageWidth, imageHeight);
+      
       ctx.restore();
     };
     img.src = imageUrl;
@@ -40,20 +44,26 @@ const Canvas = props => {
       ctx.drawImage(bg, 0, 0, 1500, 720);
       ctx.filter = "blur(0px)";
       props.affixes.map((item, index) => {
-        let circleX = (index + 1) * 150;
+        let circleY = loadedImageHeight / 2 - 150;
+        let circleX = loadedImageWidth / 2 + index * 150 - 150;
+        let imageY = circleY - 50;
         let imageX = circleX - 50;
         // console.log('circleX: ' + circleX)
         // console.log('imageX: ' + imageX)
-        drawImageCircle(ctx, circleX, 150, 50, imageX, 100, 100, 100, `https://cdnassets.raider.io/images/wow/icons/large/${item.icon}.jpg`);
+        drawImageCircle(ctx, circleX, circleY, 50, imageX, imageY, 100, 100, `https://cdnassets.raider.io/images/wow/icons/large/${item.icon}.jpg`);
       })
 
-      
       ctx.fillStyle = "white";
       ctx.textAlign = "center";
-      ctx.font = "bold 80px Arial";
-      ctx.shadowColor= "black";
-      ctx.shadowBlur= 7;
-      ctx.fillText("Neltharion's Lair +18", loadedImageWidth / 2, loadedImageHeight / 2);
+      ctx.font = "900 60px Arial";
+      ctx.shadowColor= "rgba(0, 0, 0, .5)";
+      ctx.shadowOffsetY = 2;
+      ctx.shadowOffsetX = 2;
+      ctx.shadowBlur=7;
+      ctx.fillText(props.title.toUpperCase(), loadedImageWidth / 2, loadedImageHeight / 2 + 30);
+
+      ctx.fillStyle = "#F48CBA";
+      ctx.fillText("Prot paladin".toUpperCase(), loadedImageWidth / 2, loadedImageHeight / 2 + 150 + 30);
     };
   
     bg.src = props.image;

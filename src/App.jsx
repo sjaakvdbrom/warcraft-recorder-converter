@@ -10,7 +10,7 @@ function App() {
   const [runData, setRunData] = useState({});
 
   const getRun = () => {
-    axios.get(`https://cors-anywhere.herokuapp.com/https://raider.io/api/v1/mythic-plus/run-details?season=season-df-2&id=2943404`)
+    axios.get(`https://cors-anywhere.herokuapp.com/https://raider.io/api/v1/mythic-plus/run-details?season=season-df-2&id=5914116`)
     .then(response => {
       setRunData({
         "dungeon": response.data.dungeon.name,
@@ -67,6 +67,7 @@ function App() {
               <h2>Thumbnail</h2>
               {Object.keys(runData).length > 0 && (
                 <Canvas
+                title={`${runData.dungeon} +${runData.level}`}
                 affixes={runData.affixes}
                 image={`https://cdnassets.raider.io/images/dungeons/expansion${runData.image.expansionId}/base/${runData.image.slug}.jpg`} 
                 />
@@ -76,16 +77,16 @@ function App() {
           <section>
             <h2>Title</h2>
             <div className="title">
-              {Object.keys(runData).length > 0 && `${runData.dungeon} +${runData.level}`}
+              {Object.keys(runData).length > 0 && `${runData.dungeon} +${runData.level}`} | Prot Paladin POV | Dragonflight 10.1 Season 2 M+
             </div>
           </section>
           <section>
             <h2>Description</h2>
             <ul className='description'>
-              {Object.keys(runData).length > 0 && `Mythic plus keystone +${runData.level} ${runData.dungeon} completed in ${convertSeconds(runData.time)} with the affixes `} {printAffixes()}
+              {Object.keys(runData).length > 0 && `Dragonflight season 2 Mythic plus keystone +${runData.level} ${runData.dungeon} completed in ${convertSeconds(runData.time)} with the affixes `} {printAffixes()}
               {Object.keys(runData).length > 0 && (
                 <>
-                  More details about this run can be found at <a href='https://raider.io/mythic-plus-runs/season-df-2/2943404-18-neltharions-lair' target='_blank'>https://raider.io/mythic-plus-runs/season-df-2/2943404-18-neltharions-lair</a>
+                  More details about this run can be found at <a href={`https://raider.io/mythic-plus-runs/season-df-2/2943404-${runData.level}-${runData.image.slug}`} className='underline' target='_blank'>{`https://raider.io/mythic-plus-runs/season-df-2/2943404-${runData.level}-${runData.image.slug}`}</a>
                 </>
               )}
               <br /><br />
