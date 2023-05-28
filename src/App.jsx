@@ -41,7 +41,7 @@ function App() {
           return `${affix}, `
         }
 
-        return `${affix}`
+        return `${affix}. `
       })
     )
   }
@@ -75,9 +75,15 @@ function App() {
           <section>
             <h2>Description</h2>
             <ul className='description'>
-              {Object.keys(runData).length > 0 && `Mythic plus keystone +${runData.level} ${runData.dungeon} completed in ${convertSeconds(runData.time)} with the affixes `} {printAffixes()}.
+              {Object.keys(runData).length > 0 && `Mythic plus keystone +${runData.level} ${runData.dungeon} completed in ${convertSeconds(runData.time)} with the affixes `} {printAffixes()}
+              {Object.keys(runData).length > 0 && (
+                <>
+                  More details about this run can be found at <a href='https://raider.io/mythic-plus-runs/season-df-2/2943404-18-neltharions-lair' target='_blank'>https://raider.io/mythic-plus-runs/season-df-2/2943404-18-neltharions-lair</a>
+                </>
+              )}
+              <br /><br />
               {timestamps.length > 0 && timestamps.map(item => (
-                <li key={item.description}>{item.description}</li>
+                <div key={item.description}>{item.description}</div>
               ))}
             </ul>
           </section>
