@@ -36,8 +36,24 @@ const Canvas = props => {
     var bg = new Image();
 
     bg.onload = function () {
-      ctx.drawImage(bg, 0, 0);
-      drawImageCircle(ctx, 50, 50, 50, 0, 0, 100, 100, 'https://cdnassets.raider.io/images/wow/icons/large/inv_misc_root_01.jpg');
+      ctx.filter = "blur(7px)";
+      ctx.drawImage(bg, 0, 0, 1500, 720);
+      ctx.filter = "blur(0px)";
+      props.affixes.map((item, index) => {
+        let circleX = (index + 1) * 150;
+        let imageX = circleX - 50;
+        // console.log('circleX: ' + circleX)
+        // console.log('imageX: ' + imageX)
+        drawImageCircle(ctx, circleX, 150, 50, imageX, 100, 100, 100, `https://cdnassets.raider.io/images/wow/icons/large/${item.icon}.jpg`);
+      })
+
+      
+      ctx.fillStyle = "white";
+      ctx.textAlign = "center";
+      ctx.font = "bold 80px Arial";
+      ctx.shadowColor= "black";
+      ctx.shadowBlur= 7;
+      ctx.fillText("Neltharion's Lair +18", loadedImageWidth / 2, loadedImageHeight / 2);
     };
   
     bg.src = props.image;

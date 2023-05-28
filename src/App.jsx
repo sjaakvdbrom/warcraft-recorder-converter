@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import FileUploader from './components/FileUploader';
 import axios from 'axios';
 import { millisecondsToSeconds } from 'date-fns'
@@ -15,7 +15,10 @@ function App() {
       setRunData({
         "dungeon": response.data.dungeon.name,
         "level": response.data.mythic_level,
-        "affixes": response.data.weekly_modifiers.map(item => item.name),
+        "affixes": response.data.weekly_modifiers.map(item => ({
+          "name": item.name,
+          "icon": item.icon
+        })),
         "time": millisecondsToSeconds(response.data.clear_time_ms),
         "image": {
           "expansionId": response.data.dungeon.expansion_id,
@@ -35,14 +38,14 @@ function App() {
     return (
       runData.affixes.map((affix, index) => {
         if (index + 1 === runData.affixes.length - 1) {
-          return `${affix} and `
+          return `${affix.name} and `
         }
 
         if (index + 1 < runData.affixes.length - 1) {
-          return `${affix}, `
+          return `${affix.name}, `
         }
 
-        return `${affix}. `
+        return `${affix.name}. `
       })
     )
   }
@@ -64,6 +67,7 @@ function App() {
               <h2>Thumbnail</h2>
               {Object.keys(runData).length > 0 && (
                 <Canvas
+                affixes={runData.affixes}
                 image={`https://cdnassets.raider.io/images/dungeons/expansion${runData.image.expansionId}/base/${runData.image.slug}.jpg`} 
                 />
               )}
